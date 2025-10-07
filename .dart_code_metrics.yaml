@@ -1,0 +1,29 @@
+analyzer:
+  plugins:
+    - dart_code_metrics
+
+dart_code_metrics:
+  metrics:
+    cyclomatic-complexity: 20
+    lines-of-code: 50
+    maximum-nesting-level: 5
+    number-of-parameters: 4
+  metrics-exclude:
+    - test/**
+    - lib/generated/**
+  rules:
+    # Buenas prácticas generales
+    - prefer-trailing-comma
+    - always-remove-listener
+    - avoid-late-keyword
+    - avoid-unnecessary-setstate
+    - prefer-const-constructor
+    - prefer-single-widget-per-file
+    - avoid-nested-conditional-expressions
+    - avoid-long-functions
+    - prefer-async-await
+  rules-exclude:
+    - lib/generated/**
+  anti-patterns:
+    - long-method
+    - long-parameter-list
