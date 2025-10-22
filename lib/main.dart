@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:template_flutter/routes/general/general_pages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Future.delayed(const Duration(seconds: 2)); // Simula carga
-  runApp(const MyApp());
+  runApp(ProviderScope(child: const MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final generalRouter = ref.watch(generalRouterProvider);
+
     return MaterialApp.router(
       title: 'Template Flutter',
       theme: ThemeData(

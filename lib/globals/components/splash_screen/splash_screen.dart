@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:template_flutter/stores/auh_store.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
+class _SplashScreenState extends ConsumerState<SplashScreen>
     with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _opacity;
@@ -44,13 +46,6 @@ class _SplashScreenState extends State<SplashScreen>
     );
 
     _controller.forward();
-
-    // Después de 3 segundos, pasa a /home
-    Future.delayed(const Duration(seconds: 3), () {
-      if (context.mounted) {
-        context.go('/');
-      }
-    });
   }
 
   @override
@@ -61,6 +56,18 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    final authActions = ref.read(authProvider.notifier);
+    // Después de 3 segundos, pasa a /home
+    Future.delayed(const Duration(seconds: 3), () {
+      if (context.mounted) {
+        if (authActions.isAuth()) {
+          context.go('/');
+        } else {
+          context.go('/auth/login');
+        }
+      }
+    });
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
