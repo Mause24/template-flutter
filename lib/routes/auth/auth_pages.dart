@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:template_flutter/modules/login/login_screen.dart';
+import 'package:template_flutter/modules/register/register_screen.dart';
 import 'package:template_flutter/routes/auth/auth_routes.dart';
 
 final authRouter = [
@@ -11,7 +12,7 @@ final authRouter = [
     routes: [
       GoRoute(
         path: AuthRoutes.register,
-        builder: (context, state) => const LoginScreen(),
+        builder: (context, state) => const RegisterScreen(),
       ),
       GoRoute(
         path: AuthRoutes.login,

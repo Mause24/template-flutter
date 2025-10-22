@@ -12,16 +12,15 @@ final generalRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     redirect: (context, state) async {
       final isSplash = state.matchedLocation == '/splash';
+      final isAuthRoute = state.matchedLocation.startsWith('/auth/');
 
       if (isSplash) return null;
-      print("Auth");
-      print(authActions.isAuth());
 
-      if (!authActions.isAuth()) {
+      if (!authActions.isAuth() && !isAuthRoute) {
         return '/auth/login';
       }
 
-      if (authActions.isAuth()) {
+      if (authActions.isAuth() && isAuthRoute) {
         return '/';
       }
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:template_flutter/globals/models/modules/auth_models.dart';
 import 'package:template_flutter/stores/auh_store.dart';
 
@@ -19,6 +20,12 @@ class LoginScreen extends ConsumerWidget {
         ),
         "token_123",
       );
+    }
+
+    void onNavigateRegister() {
+      if (context.mounted) {
+        context.go("/auth/register");
+      }
     }
 
     return SafeArea(
@@ -48,6 +55,13 @@ class LoginScreen extends ConsumerWidget {
                     child: ElevatedButton(
                       onPressed: onLogin,
                       child: Text("OnLogin"),
+                    ),
+                  ),
+                  FractionallySizedBox(
+                    widthFactor: 1,
+                    child: ElevatedButton(
+                      onPressed: onNavigateRegister,
+                      child: Text("Navigate To Register"),
                     ),
                   ),
                 ],
