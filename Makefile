@@ -11,6 +11,7 @@ test:
 
 clean:
 	flutter clean
+	flutter pub get
 
 dev:
 	flutter run --dart-define-from-file=.env.dev

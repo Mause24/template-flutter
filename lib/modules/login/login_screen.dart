@@ -28,6 +28,13 @@ class LoginScreen extends ConsumerWidget {
       }
     }
 
+    // Nueva función para navegar a la vista de componentes
+    void onNavigateComponentView() {
+      if (context.mounted) {
+        context.push('/component-view');
+      }
+    }
+
     return SafeArea(
       child: Stack(
         children: [
@@ -62,6 +69,15 @@ class LoginScreen extends ConsumerWidget {
                     child: ElevatedButton(
                       onPressed: onNavigateRegister,
                       child: Text("Navigate To Register"),
+                    ),
+                  ),
+
+                  // Boton para navegar a la vista de componentes
+                  FractionallySizedBox(
+                    widthFactor: 1,
+                    child: ElevatedButton(
+                      onPressed: onNavigateComponentView,
+                      child: const Text("Component View"),
                     ),
                   ),
                 ],

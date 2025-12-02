@@ -1,0 +1,19 @@
+// exports para simplificar imports
+export 'checkbox/checkbox.dart';
+export 'custom_button/custom_button.dart';
+export 'custom_modal/custom_modal.dart';
+export 'date_field/date_field.dart';
+export 'date_modal/date_modal.dart';
+export 'font/font.dart';
+export 'headers/headers.dart';
+export 'input_field/input_field.dart';
+export 'main_layout/main_layout.dart';
+export 'message/message.dart';
+export 'phone_field/phone_field.dart';
+export 'progress_bar/progress_bar.dart';
+export 'select_field/select_field.dart';
+export 'separator/separator.dart';
+export 'show_password_button/show_password_button.dart';
+export 'splash_screen/splash_screen.dart';
+export 'tabs/tabs.dart';
+export 'tabs_selector/tabs_selector.dart';
