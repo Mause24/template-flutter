@@ -11,10 +11,8 @@ import 'package:flutter/material.dart';
 ///
 class AppTypography {
   /// Familia por defecto.
-  static const defaultFamily = 'Roboto';
-
-  /// Familia condensada (casos específicos).
-  static const condensedFamily = 'RobotoCondensed';
+  static const defaultFamily = 'Nunito';
+  static const robotoFamily = 'Roboto';
 
   /// TextTheme base de la aplicación.
   ///
