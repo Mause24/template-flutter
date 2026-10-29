@@ -1,78 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import '../../theme/colors.dart';
 import '../font/font.dart';
 import 'input_field_styles.dart';
-import '../../theme/colors.dart';
 
-/// Variantes visuales del InputField.
-///
-/// - primary: campo con contenedor completo (background + border)
-/// - secondary: campo más liviano con borde inferior
-///
 enum InputFieldVariant { primary, secondary }
 
-/// Campo de texto reutilizable del sistema.
-///
-/// Este componente centraliza:
-/// - estilos
-/// - iconos internos
-/// - manejo de errores
-/// - variantes visuales
-///
-class InputField extends StatelessWidget {
-  /// Variante visual del input.
+class InputField extends StatefulWidget {
   final InputFieldVariant variant;
-
-  /// Título opcional que se muestra encima del campo.
   final String? title;
-
-  /// Ícono opcional junto al título.
   final Widget? titleIcon;
-
-  /// Ícono a la izquierda del campo.
   final Widget? leftIcon;
-
-  /// Ícono a la derecha del campo.
   final Widget? rightIcon;
-
-  /// Mensaje de error opcional.
-  /// Si no es null, se muestra debajo del campo.
   final String? error;
-
-  /// Placeholder del campo.
   final String? placeholder;
-
-  /// Color personalizado del placeholder.
-  final Color? placeholderColor;
-
-  /// Controller del TextField.
   final TextEditingController? controller;
-
-  /// Tipo de teclado (email, number, text, etc.).
   final TextInputType? keyboardType;
-
-  /// Indica si el texto debe ocultarse (passwords).
   final bool obscureText;
-
-  /// Habilita o deshabilita el campo.
   final bool enabled;
-
-  /// Si es true, el campo no es editable pero sigue siendo interactivo.
   final bool readOnly;
-
-  /// Callback al cambiar el texto.
   final void Function(String)? onChange;
-
-  /// Callback al tocar el campo.
-  final VoidCallback? onTap;
-
-  /// FocusNode externo.
-  /// Permite manejar el foco desde fuera (formularios, validaciones, etc.).
+  final String? Function(String?)?
+  validator; // Nuevo: Soporte para validación nativa
   final FocusNode? focusNode;
-
-  /// InputFormatters opcionales.
-  /// Útiles para máscaras, validaciones de entrada, etc.
   final List<TextInputFormatter>? inputFormatters;
+  final VoidCallback? onBlur; // <--- Agregamos esto
+  final double heightField;
 
   const InputField({
     super.key,
@@ -83,99 +37,146 @@ class InputField extends StatelessWidget {
     this.rightIcon,
     this.error,
     this.placeholder,
-    this.placeholderColor,
     this.controller,
     this.keyboardType,
     this.obscureText = false,
     this.enabled = true,
     this.readOnly = false,
     this.onChange,
-    this.onTap,
+    this.validator,
     this.focusNode,
     this.inputFormatters,
+    this.onBlur,
+    this.heightField = 40,
   });
 
   @override
+  State<InputField> createState() => _InputFieldState();
+}
+
+class _InputFieldState extends State<InputField> {
+  late bool _isObscured;
+  late FocusNode _internalFocusNode;
+
+  @override
+  void initState() {
+    _isObscured = widget.obscureText;
+    _internalFocusNode = widget.focusNode ?? FocusNode();
+
+    // Escuchamos los cambios de foco
+    _internalFocusNode.addListener(() {
+      if (!_internalFocusNode.hasFocus) {
+        // Cuando pierde el foco, ejecutamos el callback
+        widget.onBlur?.call();
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _internalFocusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final bool isPrimary = variant == InputFieldVariant.primary;
-    final decoration = InputFieldStyles.container(variant);
-    final fieldStyle = InputFieldStyles.field(variant);
+    final bool isPrimary = widget.variant == InputFieldVariant.primary;
+    final decoration = InputFieldStyles.container(widget.variant);
+    final fieldStyle = InputFieldStyles.field(widget.variant);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // ===== Title =====
-        if (title != null)
+        if (widget.title != null)
           Padding(
             padding: const EdgeInsets.only(bottom: 6),
             child: Row(
               children: [
-                if (titleIcon != null) titleIcon!,
+                if (widget.titleIcon != null) widget.titleIcon!,
                 Font(
-                  text: title!,
+                  text: widget.title!,
                   size: "sm",
-                  fontVariant: isPrimary ? "RobotoRegular" : "RobotoBold",
-                  color: isPrimary ? AppColorKey.black : AppColorKey.primary,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                  color:
+                      isPrimary ? AppColorKey.black : AppColorKey.primaryLight,
                 ),
               ],
             ),
           ),
 
-        // ===== Field =====
-        Container(
-          height: isPrimary ? 42 : 40,
-          decoration: decoration,
-          child: Row(
-            children: [
-              // Ícono izquierdo
-              if (leftIcon != null)
-                Padding(
-                  padding: InputFieldStyles.leftPadding(variant),
-                  child: leftIcon!,
-                ),
+        // Usamos GestureDetector para que todo el contenedor sea clickeable
+        GestureDetector(
+          onTap: () => _internalFocusNode.requestFocus(),
+          child: Container(
+            height:
+                widget.heightField, // Un poco más de altura para evitar cortes
+            decoration: decoration,
+            child: Row(
+              children: [
+                if (widget.leftIcon != null)
+                  Padding(
+                    padding: InputFieldStyles.leftPadding(widget.variant),
+                    child: widget.leftIcon!,
+                  ),
 
-              // Campo de texto
-              Expanded(
-                child: TextField(
-                  controller: controller,
-                  focusNode: focusNode,
-                  keyboardType: keyboardType,
-                  inputFormatters: inputFormatters,
-                  obscureText: obscureText,
-                  enabled: enabled,
-                  readOnly: readOnly,
-                  onTap: onTap,
-                  style: fieldStyle,
-                  onChanged: onChange,
-                  decoration: InputDecoration(
-                    hintText: placeholder,
-                    hintStyle: TextStyle(
-                      color:
-                          placeholderColor ??
-                          AppColors.fromKey(AppColorKey.greyBlack),
+                Expanded(
+                  child: TextFormField(
+                    controller: widget.controller,
+                    focusNode: _internalFocusNode,
+                    keyboardType: widget.keyboardType,
+                    inputFormatters: widget.inputFormatters,
+                    obscureText: _isObscured,
+                    enabled: widget.enabled,
+                    readOnly: widget.readOnly,
+                    style: fieldStyle,
+                    onChanged: widget.onChange,
+                    validator: widget.validator,
+                    decoration: InputDecoration(
+                      hintText: widget.placeholder,
+                      hintStyle: TextStyle(
+                        color: AppColors.textPrimaryLight.withAlpha(
+                          (0.5 * 255).toInt(),
+                        ),
+                      ),
+                      border: InputBorder.none,
+                      isDense:
+                          true, // Mejor que isCollapsed para alineación vertical
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                      ),
                     ),
-                    border: InputBorder.none,
-                    isCollapsed: true,
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 10),
                   ),
                 ),
-              ),
 
-              // Ícono derecho
-              if (rightIcon != null)
-                Padding(
-                  padding: InputFieldStyles.rightPadding(variant),
-                  child: rightIcon!,
-                ),
-            ],
+                // Lógica de Ojo para Password o ícono personalizado
+                if (widget.obscureText)
+                  IconButton(
+                    icon: Icon(
+                      _isObscured ? Icons.visibility_off : Icons.visibility,
+                      size: 20,
+                    ),
+                    onPressed: () => setState(() => _isObscured = !_isObscured),
+                  )
+                else if (widget.rightIcon != null)
+                  Padding(
+                    padding: InputFieldStyles.rightPadding(widget.variant),
+                    child: widget.rightIcon!,
+                  ),
+              ],
+            ),
           ),
         ),
 
-        // ===== Error =====
-        if (error != null)
+        if (widget.error != null)
           Padding(
-            padding: const EdgeInsets.only(top: 4),
-            child: Font(text: error!, size: "sm", color: AppColorKey.red),
+            padding: const EdgeInsets.only(top: 4, left: 4),
+            child: Font(
+              text: widget.error!,
+              size: "sm",
+              style: TextStyle(fontWeight: FontWeight.bold),
+              color: AppColorKey.errorLight,
+            ),
           ),
       ],
     );

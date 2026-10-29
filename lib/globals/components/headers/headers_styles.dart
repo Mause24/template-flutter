@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../theme/colors.dart';
 
 /// Estilos del Header.
@@ -35,7 +36,7 @@ class _BaseHeaderStyles {
   final EdgeInsets menuPadding = const EdgeInsets.all(16);
 
   /// Color de fondo del header base.
-  AppColorKey get backgroundColor => AppColorKey.primary;
+  AppColorKey get backgroundColor => AppColorKey.primaryLight;
 
   /// Color de los íconos.
   AppColorKey get iconColor => AppColorKey.white;

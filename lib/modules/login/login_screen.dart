@@ -1,88 +1,125 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:template_flutter/globals/models/modules/auth_models.dart';
-import 'package:template_flutter/stores/auh_store.dart';
+import 'package:template_flutter/globals/components/components.dart';
+import 'package:template_flutter/globals/theme/colors.dart';
+import 'package:template_flutter/globals/theme/typography.dart';
+import 'package:template_flutter/modules/login/providers/login_form_provider.dart';
 
-class LoginScreen extends ConsumerWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final authActions = ref.read(authProvider.notifier);
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
+}
 
-    void onLogin() {
-      authActions.login(
-        AuthResponse(
-          name: "Omar",
-          lastname: "Arenas",
-          email: "omararenasuni@gmail.com",
-        ),
-        "token_123",
-      );
-    }
+class _LoginScreenState extends ConsumerState<LoginScreen> {
+  @override
+  Widget build(BuildContext context) {
+    // Obtain the form state and notifier
+    final loginForm = ref.watch(loginFormProvider);
+    final notifier = ref.read(loginFormProvider.notifier);
 
-    void onNavigateRegister() {
-      if (context.mounted) {
-        context.go("/auth/register");
+    void onSubmitLogin() async {
+      final response = await notifier.submit();
+      if (response && context.mounted) {
+        context.go("/");
       }
     }
 
-    // Nueva función para navegar a la vista de componentes
-    void onNavigateComponentView() {
-      if (context.mounted) {
-        context.push('/component-view');
-      }
-    }
-
-    return SafeArea(
-      child: Stack(
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        spacing: 30,
         children: [
-          Positioned(
-            top: 0,
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.4,
-            ),
+          Column(
+            children: [
+              Font(
+                text: "Inicio de sesion",
+                color: AppColorKey.primaryLight,
+                style: AppTypography.textTheme.headlineLarge,
+              ),
+            ],
           ),
-          Positioned(
-            left: 0,
-            bottom: 0,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.7,
-              decoration: BoxDecoration(
-                color: Color.fromRGBO(250, 250, 250, 1),
-                borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+          Column(
+            spacing: 10,
+            children: [
+              InputField(
+                heightField: 50,
+                title: "Email",
+                placeholder: "Ingresa tu correo electronico",
+                keyboardType: TextInputType.emailAddress,
+                error:
+                    loginForm.touchedFields.contains("email")
+                        ? loginForm.errors['email']
+                        : null,
+                onBlur: () => notifier.markAsTouched('email'),
+                onChange:
+                    (val) =>
+                        notifier.updateModel((m) => m.copyWith(email: val)),
               ),
-              child: Column(
-                children: [
-                  FractionallySizedBox(
-                    widthFactor: 1,
-                    child: ElevatedButton(
-                      onPressed: onLogin,
-                      child: Text("OnLogin"),
-                    ),
-                  ),
-                  FractionallySizedBox(
-                    widthFactor: 1,
-                    child: ElevatedButton(
-                      onPressed: onNavigateRegister,
-                      child: Text("Navigate To Register"),
-                    ),
-                  ),
+              InputField(
+                heightField: 50,
+                title: "Contraseña",
+                obscureText: true,
+                placeholder: "Ingresa tu contraseña",
+                keyboardType: TextInputType.text,
+                error:
+                    loginForm.touchedFields.contains("password")
+                        ? loginForm.errors['password']
+                        : null,
+                onBlur: () => notifier.markAsTouched('password'),
+                onChange:
+                    (val) =>
+                        notifier.updateModel((m) => m.copyWith(password: val)),
+              ),
+            ],
+          ),
 
-                  // Boton para navegar a la vista de componentes
-                  FractionallySizedBox(
-                    widthFactor: 1,
-                    child: ElevatedButton(
-                      onPressed: onNavigateComponentView,
-                      child: const Text("Component View"),
-                    ),
-                  ),
-                ],
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Font(
+                text: "¿Olvidaste tu contraseña?",
+                onTap: () {
+                  debugPrint("Olvidar contraseña");
+                },
+                color: AppColorKey.primaryLight,
+                size: "sm",
+                style: TextStyle(fontWeight: FontWeight.w500),
               ),
-            ),
+            ],
+          ),
+
+          CustomButton(
+            title: "Iniciar Sesion",
+            isLoading: loginForm.isSubmitting,
+            disabled: loginForm.isSubmitting || !loginForm.isValid,
+            onPressed: onSubmitLogin,
+          ),
+
+          Font.rich(
+            children: [
+              TextSpan(text: "¿Aun no te has registrado? "),
+              TextSpan(
+                text: "Unete!",
+                style: TextStyle(
+                  color: AppColors.primaryLight,
+                  fontWeight: FontWeight.bold,
+                ),
+                recognizer:
+                    TapGestureRecognizer()
+                      ..onTap = () {
+                        if (context.mounted) {
+                          context.go("/auth/register");
+                        }
+                      },
+              ),
+            ],
+            color: AppColorKey.black,
+            size: "sm",
+            style: TextStyle(fontWeight: FontWeight.w500),
           ),
         ],
       ),

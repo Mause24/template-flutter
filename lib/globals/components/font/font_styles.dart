@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../theme/colors.dart';
 import '../../theme/typography.dart';
 
@@ -61,24 +62,10 @@ class FontStyles {
 
   /// Determina la familia de fuente según la variante.
   static String _resolveFontFamily(String variant) {
-    switch (variant) {
-      case "RobotoBlack":
-      case "RobotoBlackItalic":
-      case "RobotoBold":
-      case "RobotoBoldItalic":
-      case "RobotoItalic":
-      case "RobotoLight":
-      case "RobotoMedium":
-      case "RobotoRegular":
-      case "RobotoThin":
-        return AppTypography.defaultFamily;
-
-      case "RobotoCondensedBold":
-        return AppTypography.condensedFamily;
-
-      default:
-        // Fallback seguro
-        return AppTypography.defaultFamily;
-    }
+    return switch (variant) {
+      _ when variant.contains("Roboto") => AppTypography.robotoFamily,
+      _ when variant.contains("Nunito") => AppTypography.defaultFamily,
+      _ => AppTypography.defaultFamily,
+    };
   }
 }

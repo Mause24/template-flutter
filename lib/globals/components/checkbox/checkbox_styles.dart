@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../theme/colors.dart';
 
 /// Estilos reutilizables para el componente CheckBox.
@@ -24,7 +25,7 @@ class CheckBoxStyles {
       borderRadius: BorderRadius.circular(4),
       border: Border.all(
         width: 2,
-        color: hasError ? AppColors.red : AppColors.fromKey(borderColor),
+        color: hasError ? AppColors.errorLight : AppColors.fromKey(borderColor),
       ),
     );
   }
@@ -45,7 +46,7 @@ class CheckBoxStyles {
       borderRadius: BorderRadius.circular(4),
       border: Border.all(
         width: 2,
-        color: hasError ? AppColors.red : AppColors.fromKey(borderColor),
+        color: hasError ? AppColors.errorLight : AppColors.fromKey(borderColor),
       ),
     );
   }
@@ -58,7 +59,7 @@ class CheckBoxStyles {
   static TextStyle errorStyle() {
     return const TextStyle(
       fontSize: 12,
-      color: AppColors.red,
+      color: AppColors.errorLight,
       fontFamily: 'Roboto',
     );
   }

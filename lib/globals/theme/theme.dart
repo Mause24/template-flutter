@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'colors.dart';
 import 'typography.dart';
 
@@ -11,34 +12,75 @@ import 'typography.dart';
 ///
 /// Este theme se inyecta en `MaterialApp`.
 ///
-ThemeData buildTheme() {
-  return ThemeData(
-    useMaterial3: true,
+class AppTheme {
+  // 🌞 LIGHT
+  static ThemeData light() {
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.light,
 
-    // ===== Esquema de colores =====
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: AppColors.primary,
-      primary: AppColors.primary,
-      secondary: AppColors.secondary,
-      surface: AppColors.white,
-      onSurface: AppColors.colorTitle,
-    ),
-
-    // Fondo general de la app
-    scaffoldBackgroundColor: AppColors.white,
-
-    // Tipografía global
-    textTheme: AppTypography.textTheme,
-
-    // ===== Inputs por defecto =====
-    inputDecorationTheme: const InputDecorationTheme(
-      filled: true,
-      fillColor: AppColors.grayInput,
-      border: OutlineInputBorder(
-        borderSide: BorderSide.none,
-        borderRadius: BorderRadius.all(Radius.circular(8)),
+      colorScheme: ColorScheme(
+        brightness: Brightness.light,
+        primary: AppColors.primaryLight,
+        secondary: AppColors.primaryDark,
+        surface: AppColors.surfaceLight,
+        error: AppColors.errorLight,
+        onPrimary: Colors.white,
+        onSecondary: Colors.white,
+        onSurface: AppColors.textPrimaryLight,
+        onError: Colors.white,
       ),
-      hintStyle: TextStyle(color: AppColors.greyBlack),
-    ),
-  );
+
+      scaffoldBackgroundColor: AppColors.backgroundLight,
+      fontFamily: AppTypography.defaultFamily,
+    );
+  }
+
+  // 🌙 DARK
+  static ThemeData dark() {
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.dark,
+
+      colorScheme: ColorScheme(
+        brightness: Brightness.dark,
+        primary: AppColors.primaryDark,
+        secondary: AppColors.surfaceDark,
+        surface: AppColors.surfaceDark,
+        error: AppColors.errorDark,
+        onPrimary: Colors.white,
+        onSecondary: Colors.white,
+        onSurface: AppColors.textPrimaryDark,
+        onError: Colors.white,
+      ),
+
+      scaffoldBackgroundColor: AppColors.backgroundDark,
+
+      fontFamily: AppTypography.defaultFamily,
+    );
+  }
+
+  // 🖤 BLACK (AMOLED)
+  static ThemeData black() {
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.dark,
+
+      colorScheme: ColorScheme(
+        brightness: Brightness.dark,
+        primary: AppColors.primaryDark,
+        secondary: AppColors.surfaceDark,
+        surface: AppColors.surfaceBlack,
+        error: AppColors.errorDark,
+        onPrimary: Colors.white,
+        onSecondary: Colors.white,
+        onSurface: Colors.white,
+        onError: Colors.white,
+      ),
+
+      scaffoldBackgroundColor: AppColors.backgroundBlack,
+
+      fontFamily: AppTypography.defaultFamily,
+    );
+  }
 }

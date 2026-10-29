@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../theme/colors.dart';
 
 /// Estilos reutilizables del DateField.
@@ -27,8 +28,8 @@ class DateFieldStyles {
     border: Border.all(
       color:
           hasError
-              ? AppColors.fromKey(AppColorKey.error)
-              : AppColors.fromKey(AppColorKey.primary),
+              ? AppColors.fromKey(AppColorKey.errorLight)
+              : AppColors.fromKey(AppColorKey.primaryLight),
       width: 1,
     ),
   );
@@ -43,16 +44,16 @@ class DateFieldStyles {
       TextStyle(
         color:
             hasError
-                ? AppColors.fromKey(AppColorKey.error)
+                ? AppColors.fromKey(AppColorKey.errorLight)
                 : filled
                 ? AppColors.fromKey(AppColorKey.black)
-                : AppColors.fromKey(AppColorKey.greyBlack),
+                : AppColors.fromKey(AppColorKey.borderDark),
         fontSize: 15,
       );
 
   /// Estilo del título del campo.
   TextStyle get titleTextStyle => TextStyle(
-    color: AppColors.fromKey(AppColorKey.primary),
+    color: AppColors.fromKey(AppColorKey.primaryLight),
     fontSize: 14,
     fontWeight: FontWeight.w700,
   );
@@ -63,5 +64,5 @@ class DateFieldStyles {
   /// de inputs, selects y otros fields.
   ///
   TextStyle get errorTextStyle =>
-      TextStyle(color: AppColors.fromKey(AppColorKey.error), fontSize: 12);
+      TextStyle(color: AppColors.fromKey(AppColorKey.errorLight), fontSize: 12);
 }

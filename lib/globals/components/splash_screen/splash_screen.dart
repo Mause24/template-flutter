@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:template_flutter/stores/auh_store.dart';
+import 'package:template_flutter/stores/auth_store.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -63,7 +63,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
         if (authActions.isAuth()) {
           context.go('/');
         } else {
-          context.go('/auth/login');
+          context.go('/auth/');
         }
       }
     });

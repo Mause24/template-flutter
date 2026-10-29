@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../font/font.dart';
+
 import '../../theme/colors.dart';
-import '../tabs/tabs_shared_styles.dart';
+import '../font/font.dart';
 import '../tabs/tabs.dart';
+import '../tabs/tabs_shared_styles.dart';
 
 /// Selector visual de Tabs.
 ///
@@ -42,15 +43,13 @@ class TabsSelector extends StatelessWidget {
       builder: (context, constraints) {
         // Ancho disponible real
         final horizontalPadding = 8 * 2;
-        final innerWidth =
-            constraints.maxWidth - horizontalPadding;
+        final innerWidth = constraints.maxWidth - horizontalPadding;
 
         // Cada tab ocupa el mismo ancho
         final tabWidth = innerWidth / tabs.length;
 
         return Container(
-          padding:
-              const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
           decoration: BoxDecoration(
             color: s.backgroundColor,
             borderRadius: BorderRadius.circular(16),
@@ -73,8 +72,7 @@ class TabsSelector extends StatelessWidget {
                     ),
                     decoration: BoxDecoration(
                       color: s.activeColor,
-                      borderRadius:
-                          BorderRadius.circular(s.itemRadius),
+                      borderRadius: BorderRadius.circular(s.itemRadius),
                     ),
                   ),
                 ),
@@ -96,12 +94,12 @@ class TabsSelector extends StatelessWidget {
                         child: Center(
                           child: Font(
                             text: tabs[i],
-                            size:
-                                isActive ? "base" : "sm",
+                            size: isActive ? "base" : "sm",
                             fontVariant: "RobotoBold",
-                            color: isActive
-                                ? AppColorKey.white
-                                : AppColorKey.greyBlack,
+                            color:
+                                isActive
+                                    ? AppColorKey.white
+                                    : AppColorKey.textPrimaryLight,
                           ),
                         ),
                       ),

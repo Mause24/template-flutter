@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
+import '../../theme/colors.dart';
 import '../font/font.dart';
 import 'headers_styles.dart';
-import '../../theme/colors.dart';
 
 /// Variantes soportadas por el Header.
 ///
@@ -54,12 +55,7 @@ class Header extends StatelessWidget {
     if (variant == HeaderVariant.menu) {
       return Container(
         padding: styles.menuPadding,
-        child: Font(
-          text: title,
-          size: "xl",
-          fontVariant: "RobotoBold",
-          color: AppColorKey.black,
-        ),
+        child: Font(text: title, size: "xl", color: AppColorKey.black),
       );
     }
 

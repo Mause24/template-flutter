@@ -1,130 +1,139 @@
 import 'package:flutter/material.dart';
-import '../../theme/colors.dart';
+import 'package:template_flutter/globals/theme/typography.dart';
+
 import '../font/font.dart';
 import 'custom_button_styles.dart';
 
-/// Variantes disponibles del botón.
-/// Definen el estilo base (color, borde, etc.)
-enum ButtonVariant { primary, secondary, outline, outlineSecondary, disabled }
+/// Define las variantes visuales que determinan la personalidad del botón.
+enum ButtonVariant {
+  primary,
+  secondary,
+  alternate,
+  outline,
+  outlineSecondary,
+  disabled,
+}
 
-/// Botón reutilizable de la app.
+/// Componente de botón de alto nivel para el sistema MaMá.
 ///
-/// - Maneja variantes (primary, secondary, outline, etc.)
-/// - Respeta estado disabled
-/// - Permite overrides para ajustes puntuales sin crear nuevos componentes
-///
+/// Soporta estados de carga, deshabilitado, múltiples variantes visuales
+/// y personalización profunda mediante overrides.
 class CustomButton extends StatelessWidget {
-  /// Texto que se muestra en el botón
+  /// El texto principal que comunica la acción (ej: "Crear cuenta").
   final String title;
 
-  /// Variante visual del botón (define colores y bordes base)
+  /// La estética base del botón definida en el sistema de diseño.
   final ButtonVariant variant;
 
-  /// Si está en true, el botón:
-  /// - no responde al tap
-  /// - reduce su opacidad
-  /// - usa el estilo disabled
+  /// Controla si el botón ignora las interacciones del usuario.
   final bool disabled;
 
-  /// Acción que se ejecuta al presionar el botón
-  /// (no se ejecuta si disabled = true)
+  /// Estado de carga: reemplaza el texto por un spinner y bloquea el tap
+  /// para evitar múltiples peticiones accidentales.
+  final bool isLoading;
+
+  /// Callback que se dispara al presionar, anulado si [disabled] o [isLoading] son true.
   final VoidCallback? onPressed;
 
-  // ===================== OVERRIDES =====================
-  // Estos overrides son OPCIONALES y solo se usan cuando
-  // se necesita personalizar el botón en un caso puntual.
+  // ===================== OVERRIDES DE DISEÑO =====================
+  // Permiten ajustes específicos sin romper la consistencia del componente.
 
-  /// Padding interno del botón.
-  /// Si no se define, se usa el padding base del diseño.
+  /// Espaciado interno para ajustar el área de impacto o el tamaño visual.
   final EdgeInsets? padding;
 
-  /// Margen externo del botón.
-  /// Útil para separar botones sin envolverlos en SizedBox o Padding.
+  /// Separación externa respecto a otros widgets hermanos.
   final EdgeInsets? margin;
 
-  /// Decoración personalizada del contenedor.
-  /// Permite sobreescribir completamente el BoxDecoration
-  /// (por ejemplo, un borde o radio especial).
+  /// Permite inyectar una decoración completa (bordes, sombras, gradientes).
   final BoxDecoration? decorationOverride;
 
-  /// Color del texto forzado manualmente.
-  /// Si no se define, se usa el color correspondiente a la variante.
-  final AppColorKey? textColorOverride;
-
-  /// Tamaño del texto del botón.
-  /// Debe coincidir con los tamaños definidos en el componente Font
-  /// (por ejemplo: "sm", "base", "lg").
-  final String? textSizeOverride;
+  /// Modificadores específicos para la fuente dentro del botón.
+  final TextStyle? customTextStyle;
 
   const CustomButton({
     super.key,
     required this.title,
     this.variant = ButtonVariant.primary,
     this.disabled = false,
+    this.isLoading = false,
     this.onPressed,
     this.padding,
     this.margin,
     this.decorationOverride,
-    this.textColorOverride,
-    this.textSizeOverride,
+    this.customTextStyle,
   });
 
   @override
   Widget build(BuildContext context) {
-    // Si el botón está deshabilitado, siempre se fuerza la variante disabled
-    final usedVariant = disabled ? ButtonVariant.disabled : variant;
+    // Unificamos los estados de "no interacción" para simplificar la lógica.
+    final bool isInactive = disabled || isLoading;
 
-    // Determina si la variante es de tipo outline
+    // Si no es interactivo, forzamos visualmente la variante de deshabilitado.
+    final usedVariant = isInactive ? ButtonVariant.disabled : variant;
+
+    // Identificamos si es una variante con borde para ajustar el efecto de 'Splash'.
     final isOutline =
         usedVariant == ButtonVariant.outline ||
         usedVariant == ButtonVariant.outlineSecondary;
 
-    // Se usa la decoración por defecto según la variante,
-    // a menos que se provea una decoración personalizada
+    // Resolvemos la decoración final: override > estilo por variante.
     final decoration =
         decorationOverride ?? CustomButtonStyles.decoration(usedVariant);
 
+    // Extraemos el color de texto definido para la variante actual.
+    final Color textColor = CustomButtonStyles.textColor(variant);
+
+    // Construimos el estilo de texto base fusionando tipografía global y overrides.
+    final textStyles = TextStyle(
+      color: textColor,
+      fontFamily: AppTypography.defaultFamily,
+      fontWeight: FontWeight.bold,
+    ).merge(customTextStyle);
+
     return Opacity(
-      // Opacidad reducida cuando el botón está disabled
-      opacity: disabled ? 0.4 : 1,
+      // Aplicamos una opacidad sutil para dar feedback visual de inactividad.
+      opacity: isInactive ? 0.65 : 1.0,
       child: Container(
         margin: margin,
         decoration: decoration,
         child: Material(
-          type: MaterialType.transparency,
+          type:
+              MaterialType
+                  .transparency, // Evita que el Material tape la decoración del Container.
           child: InkWell(
-            // Se usa siempre el radio base para evitar inconsistencias visuales
             borderRadius: CustomButtonStyles.baseRadius,
-
-            // Efectos visuales del tap
+            // Los colores de Splash y Highlight cambian según si el botón tiene fondo o solo borde.
             splashColor:
-                disabled
+                isInactive
                     ? Colors.transparent
-                    : Colors.black.withValues(alpha: isOutline ? 0.12 : 0.15),
+                    : Colors.black.withValues(alpha: isOutline ? 0.08 : 0.12),
             highlightColor:
-                disabled
+                isInactive
                     ? Colors.transparent
                     : Colors.black.withValues(alpha: 0.05),
 
-            // Si está disabled, el tap queda inactivo
-            onTap: disabled ? null : onPressed,
+            // Si hay un proceso activo (isLoading), el tap se anula completamente.
+            onTap: isInactive ? null : onPressed,
+
             child: Container(
-              // Padding interno del botón
               padding: padding ?? CustomButtonStyles.basePadding,
+              // Establecemos una altura mínima para prevenir el 'jump' visual al alternar entre texto y loader.
+              constraints: const BoxConstraints(minHeight: 48),
               child: Center(
-                child: Font(
-                  text: title,
-
-                  // Color del texto dependiendo de la variante,
-                  // o sobreescrito manualmente si se necesita
-                  color:
-                      textColorOverride ??
-                      CustomButtonStyles.textColorKey(usedVariant),
-
-                  // Tamaño de texto por defecto u override
-                  size: textSizeOverride ?? "base",
-                  fontVariant: "RobotoBold",
-                ),
+                child:
+                    isLoading
+                        ? SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2.5,
+                            // Sincronizamos el color del loader con el color del texto para que siempre sea legible.
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              textColor,
+                            ),
+                          ),
+                        )
+                        : Font(text: title, style: textStyles),
               ),
             ),
           ),

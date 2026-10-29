@@ -49,6 +49,9 @@ dependencies:
   # Soporte de localización (incluye español)
   flutter_localizations:
     sdk: flutter
+  riverpod_annotation: ^4.0.2
+  shared_preferences: ^2.5.5
+  rive: ^0.14.7
 
 dev_dependencies:
   flutter_test:
@@ -60,8 +63,9 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
-  build_runner: ^2.7.1
+  build_runner: ^2.15.0
   json_serializable: ^6.11.1
+  change_app_package_name: ^1.5.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -102,6 +106,47 @@ flutter:
           weight: 900
         - asset: assets/fonts/Roboto/Roboto-BlackItalic.ttf
           weight: 900
+          style: italic
+    - family: Nunito
+      fonts:
+        - asset: assets/fonts/Nunito/Nunito-LightItalic.ttf
+          weight: 200
+        - asset: assets/fonts/Nunito/Nunito-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Nunito/Nunito-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Nunito/Nunito-Italic.ttf
+          weight: 400
+          style: italic
+        - asset: assets/fonts/Nunito/Nunito-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Nunito/Nunito-MediumItalic.ttf
+          weight: 500
+          style: italic
+        - asset: assets/fonts/Nunito/Nunito-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Nunito/Nunito-SemiBoldItalic.ttf
+          weight: 600
+          style: italic
+        - asset: assets/fonts/Nunito/Nunito-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Nunito/Nunito-BoldItalic.ttf
+          weight: 700
+          style: italic
+        - asset: assets/fonts/Nunito/Nunito-Black.ttf
+          weight: 900
+        - asset: assets/fonts/Nunito/Nunito-BlackItalic.ttf
+          weight: 900
+          style: italic
+        - asset: assets/fonts/Nunito/Nunito-ExtraBold.ttf
+          weight: 900
+        - asset: assets/fonts/Nunito/Nunito-ExtraBoldItalic.ttf
+          weight: 900
+          style: italic
+        - asset: assets/fonts/Nunito/Nunito-ExtraLight.ttf
+          weight: 100
+        - asset: assets/fonts/Nunito/Nunito-ExtraLightItalic.ttf
+          weight: 100
           style: italic
 
     - family: RobotoCondensed

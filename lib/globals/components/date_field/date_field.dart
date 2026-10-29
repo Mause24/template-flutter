@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
 import '../../theme/colors.dart';
-import 'date_field_styles.dart';
 import '../date_modal/date_modal.dart';
+import 'date_field_styles.dart';
 
 /// Campo de selección de fecha.
 ///
@@ -154,8 +155,8 @@ class _DateFieldState extends State<DateField> {
                   size: 22,
                   color:
                       hasError
-                          ? AppColors.fromKey(AppColorKey.error)
-                          : AppColors.fromKey(AppColorKey.primary),
+                          ? AppColors.fromKey(AppColorKey.errorLight)
+                          : AppColors.fromKey(AppColorKey.primaryDark),
                 ),
               ],
             ),

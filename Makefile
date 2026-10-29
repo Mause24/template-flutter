@@ -13,6 +13,9 @@ clean:
 	flutter clean
 	flutter pub get
 
+build_interfaces:
+	flutter pub run build_runner build --delete-conflicting-outputs
+
 dev:
 	flutter run --dart-define-from-file=.env.dev
 
@@ -20,7 +23,7 @@ prod:
 	flutter run --dart-define-from-file=.env.prod
 
 build-dev:
-	flutter build --dart-define-from-file=.env.dev 
+	flutter build --dart-define-from-file=.env.dev
 
 build-prod:
 	flutter build --dart-define-from-file=.env.prod

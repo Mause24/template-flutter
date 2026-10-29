@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../theme/colors.dart';
 import 'custom_button.dart';
 
@@ -16,7 +17,7 @@ class CustomButtonStyles {
   /// Radio por defecto del botón.
   /// Se reutiliza tanto para el contenedor como para el InkWell
   /// para mantener consistencia visual.
-  static const baseRadius = BorderRadius.all(Radius.circular(7));
+  static const baseRadius = BorderRadius.all(Radius.circular(12));
 
   /// Devuelve el color de fondo del botón según la variante.
   ///
@@ -27,13 +28,16 @@ class CustomButtonStyles {
   static Color background(ButtonVariant variant) {
     switch (variant) {
       case ButtonVariant.primary:
-        return AppColors.fromKey(AppColorKey.primary);
+        return AppColors.primaryLight;
 
       case ButtonVariant.secondary:
-        return AppColors.fromKey(AppColorKey.secondary);
+        return AppColors.white;
+
+      case ButtonVariant.alternate:
+        return AppColors.primarySurfaceLight;
 
       case ButtonVariant.disabled:
-        return AppColors.fromKey(AppColorKey.greyBlack);
+        return AppColors.textSecondaryLight;
 
       default:
         return Colors.transparent;
@@ -53,19 +57,13 @@ class CustomButtonStyles {
       case ButtonVariant.outline:
         return BoxDecoration(
           borderRadius: baseRadius,
-          border: Border.all(
-            color: AppColors.fromKey(AppColorKey.primary),
-            width: 2,
-          ),
+          border: Border.all(color: AppColors.primaryLight, width: 2),
         );
 
       case ButtonVariant.outlineSecondary:
         return BoxDecoration(
           borderRadius: baseRadius,
-          border: Border.all(
-            color: AppColors.fromKey(AppColorKey.secondary),
-            width: 2,
-          ),
+          border: Border.all(color: AppColors.primaryDark, width: 2),
         );
 
       default:
@@ -86,20 +84,20 @@ class CustomButtonStyles {
   /// - outlineSecondary → texto color secondary
   /// - disabled → texto blanco atenuado visualmente por la opacidad
   ///
-  static AppColorKey textColorKey(ButtonVariant variant) {
+  static Color textColor(ButtonVariant variant) {
     switch (variant) {
       case ButtonVariant.primary:
+        return AppColors.white;
       case ButtonVariant.secondary:
-        return AppColorKey.white;
-
+      case ButtonVariant.alternate:
       case ButtonVariant.outline:
-        return AppColorKey.primary;
+        return AppColors.primaryLight;
 
       case ButtonVariant.outlineSecondary:
-        return AppColorKey.secondary;
+        return AppColors.primaryDark;
 
       case ButtonVariant.disabled:
-        return AppColorKey.white;
+        return AppColors.white;
     }
   }
 }
