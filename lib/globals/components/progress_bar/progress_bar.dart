@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+
+import '../../theme/colors.dart';
 import '../font/font.dart';
 import 'progress_bar_styles.dart';
-import '../../theme/colors.dart';
 
 /// Barra de progreso por pasos.
 ///
@@ -144,10 +145,9 @@ class _ProgressBarState extends State<ProgressBar>
 
         return GestureDetector(
           behavior: HitTestBehavior.opaque,
-          onTapDown: (d) =>
-              _handleTouch(constraints, d.localPosition.dx),
-          onHorizontalDragUpdate: (d) =>
-              _handleTouch(constraints, d.localPosition.dx),
+          onTapDown: (d) => _handleTouch(constraints, d.localPosition.dx),
+          onHorizontalDragUpdate:
+              (d) => _handleTouch(constraints, d.localPosition.dx),
           child: Column(
             children: [
               // ===== Barra visual =====
@@ -159,12 +159,10 @@ class _ProgressBarState extends State<ProgressBar>
                     Positioned(
                       top: 18,
                       left: positions.first + dotSize / 2,
-                      right:
-                          (width - (positions.last + dotSize / 2)),
+                      right: (width - (positions.last + dotSize / 2)),
                       child: Container(
                         height: 4,
-                        decoration:
-                            ProgressBarStyles.backgroundBar(),
+                        decoration: ProgressBarStyles.backgroundBar(),
                       ),
                     ),
 
@@ -178,13 +176,11 @@ class _ProgressBarState extends State<ProgressBar>
 
                         return Positioned(
                           top: 18,
-                          left:
-                              positions.first + dotSize / 2,
+                          left: positions.first + dotSize / 2,
                           width: progressWidth,
                           child: Container(
                             height: 4,
-                            decoration:
-                                ProgressBarStyles.foregroundBar(),
+                            decoration: ProgressBarStyles.foregroundBar(),
                           ),
                         );
                       },
@@ -192,8 +188,7 @@ class _ProgressBarState extends State<ProgressBar>
 
                     // Puntos
                     ...List.generate(total, (i) {
-                      final isActive =
-                          i <= widget.currentStep;
+                      final isActive = i <= widget.currentStep;
 
                       return Positioned(
                         top: 8,
@@ -201,10 +196,10 @@ class _ProgressBarState extends State<ProgressBar>
                         child: Container(
                           width: dotSize,
                           height: dotSize,
-                          decoration: isActive
-                              ? ProgressBarStyles.circleActive()
-                              : ProgressBarStyles
-                                  .circleInactive(),
+                          decoration:
+                              isActive
+                                  ? ProgressBarStyles.circleActive()
+                                  : ProgressBarStyles.circleInactive(),
                         ),
                       );
                     }),
@@ -216,11 +211,9 @@ class _ProgressBarState extends State<ProgressBar>
 
               // ===== Labels =====
               Row(
-                mainAxisAlignment:
-                    MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: List.generate(total, (i) {
-                  final isActive =
-                      i <= widget.currentStep;
+                  final isActive = i <= widget.currentStep;
 
                   return SizedBox(
                     width: 80,
@@ -228,12 +221,11 @@ class _ProgressBarState extends State<ProgressBar>
                       child: Font(
                         text: widget.steps[i],
                         size: "sm",
-                        fontVariant: isActive
-                            ? "RobotoBold"
-                            : "RobotoRegular",
-                        color: isActive
-                            ? AppColorKey.secondary
-                            : AppColorKey.gray,
+                        fontVariant: isActive ? "RobotoBold" : "RobotoRegular",
+                        color:
+                            isActive
+                                ? AppColorKey.primaryDark
+                                : AppColorKey.textSecondaryLight,
                         align: TextAlign.center,
                       ),
                     ),

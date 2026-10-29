@@ -1,4 +1,5 @@
 // exports para simplificar imports
+export '../layouts/main_layout/main_layout.dart';
 export 'checkbox/checkbox.dart';
 export 'custom_button/custom_button.dart';
 export 'custom_modal/custom_modal.dart';
@@ -7,7 +8,6 @@ export 'date_modal/date_modal.dart';
 export 'font/font.dart';
 export 'headers/headers.dart';
 export 'input_field/input_field.dart';
-export 'main_layout/main_layout.dart';
 export 'message/message.dart';
 export 'phone_field/phone_field.dart';
 export 'progress_bar/progress_bar.dart';

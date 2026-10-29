@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../theme/colors.dart';
 import 'input_field.dart';
 
@@ -21,19 +22,15 @@ class InputFieldStyles {
     switch (variant) {
       case InputFieldVariant.primary:
         return BoxDecoration(
-          color: AppColors.fromKey(AppColorKey.highlightGrey),
+          color: AppColors.fromKey(AppColorKey.primarySurfaceLight),
           borderRadius: BorderRadius.circular(7),
-          border: Border.all(
-            color: AppColors.fromKey(AppColorKey.grayInput),
-            width: 2,
-          ),
         );
 
       case InputFieldVariant.secondary:
         return BoxDecoration(
           border: Border(
             bottom: BorderSide(
-              color: AppColors.fromKey(AppColorKey.primary),
+              color: AppColors.fromKey(AppColorKey.primaryLight),
               width: 1,
             ),
           ),
@@ -47,18 +44,10 @@ class InputFieldStyles {
   static TextStyle field(InputFieldVariant variant) {
     switch (variant) {
       case InputFieldVariant.primary:
-        return TextStyle(
-          fontFamily: "RobotoRegular",
-          color: AppColors.fromKey(AppColorKey.black),
-          fontSize: 14,
-        );
+        return TextStyle(color: AppColors.black, fontSize: 14);
 
       case InputFieldVariant.secondary:
-        return TextStyle(
-          fontFamily: "RobotoRegular",
-          color: AppColors.fromKey(AppColorKey.black),
-          fontSize: 16,
-        );
+        return TextStyle(color: AppColors.black, fontSize: 16);
     }
   }
 

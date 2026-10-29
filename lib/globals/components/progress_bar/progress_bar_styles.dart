@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../theme/colors.dart';
 
 /// Estilos del componente ProgressBar.
@@ -12,7 +13,7 @@ class ProgressBarStyles {
   /// Barra de fondo (progreso total).
   static BoxDecoration backgroundBar() {
     return BoxDecoration(
-      color: AppColors.fromKey(AppColorKey.gray),
+      color: AppColors.fromKey(AppColorKey.textSecondaryLight),
       borderRadius: BorderRadius.circular(2),
     );
   }
@@ -20,7 +21,7 @@ class ProgressBarStyles {
   /// Barra de progreso activo.
   static BoxDecoration foregroundBar() {
     return BoxDecoration(
-      color: AppColors.fromKey(AppColorKey.secondary),
+      color: AppColors.fromKey(AppColorKey.primaryDark),
       borderRadius: BorderRadius.circular(2),
     );
   }
@@ -28,7 +29,7 @@ class ProgressBarStyles {
   /// Punto inactivo.
   static BoxDecoration circleInactive() {
     return BoxDecoration(
-      color: AppColors.fromKey(AppColorKey.gray),
+      color: AppColors.fromKey(AppColorKey.textSecondaryLight),
       shape: BoxShape.circle,
     );
   }
@@ -36,7 +37,7 @@ class ProgressBarStyles {
   /// Punto activo.
   static BoxDecoration circleActive() {
     return BoxDecoration(
-      color: AppColors.fromKey(AppColorKey.secondary),
+      color: AppColors.fromKey(AppColorKey.primaryDark),
       shape: BoxShape.circle,
     );
   }

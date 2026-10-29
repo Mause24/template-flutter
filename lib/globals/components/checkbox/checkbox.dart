@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:template_flutter/globals/components/font/font.dart';
+
 import '../../theme/colors.dart';
 import 'checkbox_styles.dart';
 
@@ -44,7 +46,7 @@ class CheckBox extends StatefulWidget {
 
     this.borderColor = AppColorKey.black,
     this.checkColor = AppColorKey.white,
-    this.backgroundColor = AppColorKey.primary,
+    this.backgroundColor = AppColorKey.primaryLight,
 
     this.error,
     this.onChange,
@@ -121,7 +123,7 @@ class _CheckBoxState extends State<CheckBox> {
               const SizedBox(width: 8),
 
               // Texto o widget que acompaña al checkbox.
-              widget.child ?? const SizedBox.shrink(),
+              Expanded(child: widget.child ?? const SizedBox.shrink()),
             ],
           ),
         ),
@@ -129,8 +131,13 @@ class _CheckBoxState extends State<CheckBox> {
         // Render del mensaje de error si existe.
         if (hasError)
           Padding(
-            padding: const EdgeInsets.only(top: 4),
-            child: Text(widget.error!, style: CheckBoxStyles.errorStyle()),
+            padding: const EdgeInsets.only(top: 4, left: 4),
+            child: Font(
+              text: widget.error,
+              size: "sm",
+              style: TextStyle(fontWeight: FontWeight.bold),
+              color: AppColorKey.errorLight,
+            ),
           ),
       ],
     );

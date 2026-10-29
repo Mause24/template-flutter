@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../theme/colors.dart';
 
 /// Estilos del componente PhoneField.
@@ -14,7 +15,7 @@ class PhoneFieldStyles {
   /// y otros inputs del sistema.
   ///
   TextStyle get titleTextStyle => TextStyle(
-    color: AppColors.fromKey(AppColorKey.primary),
+    color: AppColors.fromKey(AppColorKey.primaryLight),
     fontSize: 14,
     fontWeight: FontWeight.w700,
   );

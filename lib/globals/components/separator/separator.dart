@@ -1,96 +1,81 @@
 import 'package:flutter/material.dart';
+import 'package:template_flutter/globals/components/font/font.dart';
+
 import '../../theme/colors.dart';
 import 'separator_styles.dart';
 
-/// Variantes disponibles del Separator.
-///
-/// - thin: línea fina (1px)
-/// - thick: línea gruesa
-/// - faded: línea con opacidad
-/// - custom: configuración totalmente personalizada
-///
 enum SeparatorVariant { thin, thick, faded, custom }
 
-/// Componente Separator.
-///
-/// Se usa para:
-/// - separar secciones
-/// - dividir contenido visualmente
-/// - agregar espacios con línea horizontal o vertical
-///
-/// Ventajas:
-/// - un solo componente para todos los separadores
-/// - consistente con el sistema de colores
-/// - soporta orientación horizontal y vertical
-///
 class Separator extends StatelessWidget {
-  /// Variante visual del separador.
   final SeparatorVariant variant;
-
-  /// Color del separador usando AppColorKey.
   final AppColorKey color;
-
-  /// Indica si el separador es vertical.
-  ///
-  /// false → horizontal
-  /// true  → vertical
-  ///
   final bool vertical;
-
-  /// Grosor de la línea (solo para custom).
   final double thickness;
-
-  /// Espaciado alrededor de la línea.
   final double space;
-
-  /// Altura del separador vertical (custom).
   final double? height;
-
-  /// Ancho del separador horizontal (custom).
   final double? width;
-
-  /// Opacidad del separador.
   final double opacity;
+
+  /// Texto opcional para mostrar en medio del separador (solo horizontal)
+  final String? label;
 
   const Separator({
     super.key,
     this.variant = SeparatorVariant.custom,
-    this.color = AppColorKey.gray,
+    this.color = AppColorKey.textSecondaryLight,
     this.vertical = false,
-    this.thickness = 8,
-    this.space = 5,
+    this.thickness = 1, // Bajé el default a 1 para que sea una línea real
+    this.space = 10,
     this.height,
     this.width,
     this.opacity = 1.0,
+    this.label,
   });
 
   @override
   Widget build(BuildContext context) {
+    // Si tiene texto y es horizontal, usamos la estructura de Row
+    if (label != null && !vertical) {
+      return Padding(
+        padding: EdgeInsets.symmetric(vertical: space),
+        child: Row(
+          children: [
+            Expanded(child: _buildSeparatorLine()),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Font(
+                text: label!,
+                size: "sm", // Tamaño pequeño para que se vea como en la imagen
+                color: color, // Mismo color que el separador
+                style: const TextStyle(fontWeight: FontWeight.w500),
+              ),
+            ),
+            Expanded(child: _buildSeparatorLine()),
+          ],
+        ),
+      );
+    }
+
+    // Si no tiene texto, se comporta como el separador normal
+    return _buildSeparatorLine();
+  }
+
+  /// Encapsula la lógica de construcción de la línea según la variante
+  Widget _buildSeparatorLine() {
     final styles = SeparatorStyles.base;
 
     switch (variant) {
       case SeparatorVariant.thin:
         return styles.thin(color: color, vertical: vertical, space: space);
-
       case SeparatorVariant.thick:
         return styles.thick(color: color, vertical: vertical, space: space);
-
       case SeparatorVariant.faded:
         return styles.faded(color: color, vertical: vertical, opacity: opacity);
-
       case SeparatorVariant.custom:
         return _buildCustom(AppColors.fromKey(color));
     }
   }
 
-  /// Construcción del separador custom.
-  ///
-  /// Permite controlar directamente:
-  /// - orientación
-  /// - grosor
-  /// - tamaño
-  /// - opacidad
-  ///
   Widget _buildCustom(Color resolved) {
     final widget =
         vertical
@@ -103,11 +88,11 @@ class Separator extends StatelessWidget {
             : Container(
               height: thickness,
               width: width ?? double.infinity,
-              margin: EdgeInsets.symmetric(vertical: space),
+              margin:
+                  label != null ? null : EdgeInsets.symmetric(vertical: space),
               color: resolved,
             );
 
-    // Aplica opacidad solo si es necesario
     return opacity == 1.0 ? widget : Opacity(opacity: opacity, child: widget);
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:template_flutter/globals/components/components.dart';
+
 import '../../theme/colors.dart';
-import '../input_field/input_field.dart';
-import '../select_field/select_field.dart';
 import '../../utils/countries.dart';
 import 'phone_field_styles.dart';
 
@@ -24,6 +24,8 @@ class PhoneField extends StatefulWidget {
   /// Callback que retorna el número completo (extensión + número).
   final void Function(String fullValue)? onChange;
 
+  final VoidCallback? onBlur;
+
   /// Placeholder del input numérico.
   final String placeholder;
 
@@ -42,14 +44,19 @@ class PhoneField extends StatefulWidget {
   /// Mensaje de error opcional.
   final String? error;
 
+  /// Tamaño del input
+  final double heightField;
+
   const PhoneField({
     super.key,
     this.onChange,
+    this.onBlur,
     this.placeholder = "Ingrese su número de teléfono",
-    this.variant = SelectFieldVariant.secondary,
+    this.variant = SelectFieldVariant.primary,
     this.title,
     this.titleIcon,
     this.error,
+    this.heightField = 40,
   });
 
   @override
@@ -72,8 +79,6 @@ class _PhoneFieldState extends State<PhoneField> {
 
   @override
   void initState() {
-    super.initState();
-
     // Selecciono Colombia por defecto si existe.
     final co = countries.where((c) => c.countrySuffix == "co").toList();
 
@@ -83,6 +88,7 @@ class _PhoneFieldState extends State<PhoneField> {
       label: initial.phoneExtension,
       value: initial.countrySuffix,
     );
+    super.initState();
   }
 
   /// Notifica el valor completo hacia afuera.
@@ -97,7 +103,6 @@ class _PhoneFieldState extends State<PhoneField> {
   @override
   void dispose() {
     _ctrl.dispose();
-    _focusNode.dispose();
     super.dispose();
   }
 
@@ -188,52 +193,62 @@ class _PhoneFieldState extends State<PhoneField> {
                     ? InputFieldVariant.primary
                     : InputFieldVariant.secondary;
 
-            final double fieldHeight =
-                inputVariant == InputFieldVariant.primary ? 44 : 40;
+            return Container(
+              height: widget.heightField,
+              constraints: BoxConstraints(
+                minHeight: widget.heightField,
+                maxHeight: double.infinity,
+              ),
+              child: Row(
+                children: [
+                  // ===== Country Select =====
+                  SizedBox(
+                    width: 85,
+                    child: FractionallySizedBox(
+                      heightFactor: 1,
+                      child: SelectField<String>(
+                        options: opts,
+                        value: _ext,
+                        fieldHeight: widget.heightField,
+                        onChange: (opt) {
+                          setState(() => _ext = opt);
+                          _notify();
 
-            return Row(
-              children: [
-                // ===== Country Select =====
-                IntrinsicWidth(
-                  child: SizedBox(
-                    height: fieldHeight,
-                    child: SelectField<String>(
-                      options: opts,
-                      value: _ext,
-                      onChange: (opt) {
-                        setState(() => _ext = opt);
-                        _notify();
-
-                        // Devuelvo el foco al input
-                        _focusNode.requestFocus();
-                      },
-                      variant: widget.variant,
-                      itemBuilder: itemBuilder,
-                      dropdownWidth: constraints.maxWidth,
+                          // Devuelvo el foco al input
+                          _focusNode.requestFocus();
+                        },
+                        variant: widget.variant,
+                        itemBuilder: itemBuilder,
+                        dropdownWidth: constraints.maxWidth,
+                      ),
                     ),
                   ),
-                ),
 
-                const SizedBox(width: 8),
+                  const SizedBox(width: 8),
 
-                // ===== Phone Input =====
-                Expanded(
-                  child: SizedBox(
-                    height: fieldHeight,
-                    child: InputField(
-                      placeholder: widget.placeholder,
-                      controller: _ctrl,
-                      variant: inputVariant,
-                      keyboardType: TextInputType.phone,
-                      focusNode: _focusNode,
-                      onChange: (_) => _notify(),
+                  // ===== Phone Input =====
+                  Expanded(
+                    child: FractionallySizedBox(
+                      heightFactor: 1,
+                      child: InputField(
+                        heightField: widget.heightField,
+                        onBlur: widget.onBlur,
+                        placeholder: widget.placeholder,
+                        controller: _ctrl,
+                        variant: inputVariant,
+                        keyboardType: TextInputType.phone,
+                        focusNode: _focusNode,
+                        onChange: (_) => _notify(),
 
-                      // Solo números
-                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                        // Solo números
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             );
           },
         ),
@@ -241,13 +256,12 @@ class _PhoneFieldState extends State<PhoneField> {
         // ===== Error =====
         if (widget.error != null)
           Padding(
-            padding: const EdgeInsets.only(top: 6, left: 8),
-            child: Text(
-              widget.error!,
-              style: TextStyle(
-                color: AppColors.fromKey(AppColorKey.red),
-                fontSize: 12.5,
-              ),
+            padding: const EdgeInsets.only(top: 4, left: 4),
+            child: Font(
+              text: widget.error,
+              size: "sm",
+              style: TextStyle(fontWeight: FontWeight.bold),
+              color: AppColorKey.errorLight,
             ),
           ),
       ],

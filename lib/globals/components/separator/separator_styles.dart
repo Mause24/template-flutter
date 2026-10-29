@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../theme/colors.dart';
 import 'separator.dart';
 
@@ -28,7 +29,7 @@ class _BaseSeparatorStyles {
   /// - divisiones suaves
   ///
   Widget thin({
-    AppColorKey color = AppColorKey.gray,
+    AppColorKey color = AppColorKey.textSecondaryLight,
     bool vertical = false,
     double space = 8,
   }) {

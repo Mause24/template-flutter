@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+
+import '../../theme/colors.dart';
 import '../custom_button/custom_button.dart';
 import '../select_field/select_field.dart';
 import '../select_field/select_field_styles.dart';
 import 'date_modal_styles.dart';
-import '../../theme/colors.dart';
 
 /// Modal de selección de fecha.
 ///
@@ -154,7 +155,7 @@ class _DateModalState extends State<DateModal> {
                                   color:
                                       isSelected
                                           ? AppColors.fromKey(
-                                            AppColorKey.primary,
+                                            AppColorKey.primaryLight,
                                           ).withValues(alpha: 0.9)
                                           : Colors.transparent,
                                   padding: const EdgeInsets.symmetric(
@@ -214,7 +215,7 @@ class _DateModalState extends State<DateModal> {
                                   color:
                                       isSelected
                                           ? AppColors.fromKey(
-                                            AppColorKey.primary,
+                                            AppColorKey.primaryLight,
                                           ).withValues(alpha: 0.9)
                                           : Colors.transparent,
                                   padding: const EdgeInsets.symmetric(
@@ -255,7 +256,7 @@ class _DateModalState extends State<DateModal> {
             Container(
               decoration: BoxDecoration(
                 border: Border.all(
-                  color: AppColors.fromKey(AppColorKey.primary),
+                  color: AppColors.fromKey(AppColorKey.primaryLight),
                   width: 1.5,
                 ),
                 borderRadius: const BorderRadius.vertical(

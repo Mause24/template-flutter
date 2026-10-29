@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../theme/colors.dart';
 import 'show_password_button_styles.dart';
 
@@ -40,7 +41,7 @@ class ShowPasswordButton extends StatefulWidget {
   const ShowPasswordButton({
     super.key,
     this.variant = ShowPasswordButtonVariant.normal,
-    this.color = AppColorKey.gray,
+    this.color = AppColorKey.textSecondaryLight,
     this.activeColor,
     this.onToggle,
   });

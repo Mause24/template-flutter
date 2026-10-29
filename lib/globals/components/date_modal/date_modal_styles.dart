@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
+
 import '../../theme/colors.dart';
 
 /// Estilos visuales del DateModal.
@@ -20,7 +21,10 @@ class DateModalStyles {
   BoxDecoration get containerDecoration => BoxDecoration(
     color: AppColors.fromKey(AppColorKey.white),
     borderRadius: BorderRadius.circular(12),
-    border: Border.all(color: AppColors.fromKey(AppColorKey.primary), width: 2),
+    border: Border.all(
+      color: AppColors.fromKey(AppColorKey.primaryLight),
+      width: 2,
+    ),
     boxShadow: [
       BoxShadow(
         color: Colors.black.withValues(alpha: 0.15),
@@ -37,7 +41,7 @@ class DateModalStyles {
   /// - fila de días de la semana
   ///
   BoxDecoration get headerDecoration => BoxDecoration(
-    color: AppColors.fromKey(AppColorKey.primary),
+    color: AppColors.fromKey(AppColorKey.primaryLight),
     borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
   );
 
@@ -50,15 +54,17 @@ class DateModalStyles {
   ///
   CalendarStyle get calendarStyle => CalendarStyle(
     outsideDaysVisible: true,
-    outsideTextStyle: TextStyle(color: AppColors.fromKey(AppColorKey.gray)),
+    outsideTextStyle: TextStyle(
+      color: AppColors.fromKey(AppColorKey.textSecondaryLight),
+    ),
     weekendTextStyle: const TextStyle(color: Colors.black87),
     defaultTextStyle: const TextStyle(color: Colors.black87),
     todayDecoration: BoxDecoration(
-      color: AppColors.fromKey(AppColorKey.secondary).withValues(alpha: 0.6),
+      color: AppColors.fromKey(AppColorKey.primaryDark).withValues(alpha: 0.6),
       shape: BoxShape.circle,
     ),
     selectedDecoration: BoxDecoration(
-      color: AppColors.fromKey(AppColorKey.primary),
+      color: AppColors.fromKey(AppColorKey.primaryLight),
       shape: BoxShape.circle,
     ),
     todayTextStyle: const TextStyle(color: Colors.white),
@@ -79,6 +85,8 @@ class DateModalStyles {
       color: AppColors.fromKey(AppColorKey.white),
       fontWeight: FontWeight.w700,
     ),
-    decoration: BoxDecoration(color: AppColors.fromKey(AppColorKey.primary)),
+    decoration: BoxDecoration(
+      color: AppColors.fromKey(AppColorKey.primaryLight),
+    ),
   );
 }

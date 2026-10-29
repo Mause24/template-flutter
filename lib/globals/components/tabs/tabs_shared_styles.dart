@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../theme/colors.dart';
 import 'tabs.dart';
 
@@ -29,14 +30,14 @@ class TabsSharedStyles {
   late double itemRadius;
 
   TabsSharedStyles({required this.variant}) {
-    backgroundColor = AppColors.grayInput;
+    backgroundColor = AppColors.dividerDark;
     itemRadius = 6;
 
     // Color activo según variante
     if (variant == TabsVariant.primary) {
-      activeColor = AppColors.primary;
+      activeColor = AppColors.primaryLight;
     } else {
-      activeColor = AppColors.secondary;
+      activeColor = AppColors.primaryDark;
     }
 
     activePaddingH = 12;
