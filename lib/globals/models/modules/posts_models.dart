@@ -1,8 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:template_flutter/globals/models/globals.dart';
+
 part 'posts_models.g.dart';
 
 @JsonSerializable()
-class Post {
+class Post extends BaseModel {
   int userId;
   int id;
   String title;
@@ -17,5 +19,6 @@ class Post {
 
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$PostToJson(this);
 }

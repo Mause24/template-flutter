@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:template_flutter/globals/components/message/message.dart';
 import 'package:template_flutter/globals/components/custom_modal/custom_modal.dart';
+import 'package:template_flutter/globals/components/message/message.dart';
 import 'package:template_flutter/globals/components/message/message_styles.dart';
 
 /// ============================================================================
@@ -97,7 +97,7 @@ class MessageStore extends Notifier<MessageState> {
     );
 
     // Obtenemos el Overlay raíz.
-    final overlay = Overlay.of(ctx, rootOverlay: true);
+    final overlay = Overlay.of(ctx);
 
     // Insertamos el Message por encima de toda la app.
     overlay.insert(entry);
