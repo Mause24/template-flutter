@@ -25,16 +25,16 @@ class _AuthlayoutState extends ConsumerState<Authlayout> {
 
   @override
   void initState() {
-    onInitAuthLayout(widget.state.fullPath ?? "");
     super.initState();
+    _updatePositionFromPath(widget.state.fullPath ?? "");
   }
 
   @override
   void didUpdateWidget(covariant Authlayout oldWidget) {
-    if (oldWidget.state.fullPath != widget.state.fullPath) {
-      onInitAuthLayout(widget.state.fullPath ?? "");
-    }
     super.didUpdateWidget(oldWidget);
+    if (oldWidget.state.fullPath != widget.state.fullPath) {
+      _updatePositionFromPath(widget.state.fullPath ?? "");
+    }
   }
 
   void toggleModal() {
@@ -43,31 +43,27 @@ class _AuthlayoutState extends ConsumerState<Authlayout> {
     });
   }
 
+  void _updatePositionFromPath(String path) {
+    setState(() {
+      if (path.contains("/auth/register")) {
+        percentageMoved = 0;
+      } else if (path.contains("/auth/login")) {
+        percentageMoved = 0.2;
+      } else {
+        percentageMoved = 1;
+      }
+    });
+  }
+
   void onNavigateLogin() {
-    if (context.mounted &&
-        !(widget.state.fullPath?.contains("login") ?? false)) {
+    if (!(widget.state.fullPath?.contains("login") ?? false)) {
       context.go("/auth/login");
     }
-    setState(() {
-      percentageMoved = 0.2;
-    });
   }
 
   void onNavigateRegister() {
-    if (context.mounted &&
-        !(widget.state.fullPath?.contains("register") ?? false)) {
+    if (!(widget.state.fullPath?.contains("register") ?? false)) {
       context.go("/auth/register");
-    }
-    setState(() {
-      percentageMoved = 0;
-    });
-  }
-
-  void onInitAuthLayout(String path) {
-    if (path.contains("/auth/register")) {
-      onNavigateRegister();
-    } else if (path.contains("/auth/login")) {
-      onNavigateLogin();
     }
   }
 

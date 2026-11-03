@@ -14,11 +14,19 @@ final authRouter = [
       GoRoute(path: AuthRoutes.root, builder: (context, state) => Scaffold()),
       GoRoute(
         path: AuthRoutes.register,
-        builder: (context, state) => const RegisterScreen(),
+        pageBuilder:
+            (context, state) => NoTransitionPage(
+              key: state.pageKey,
+              child: const RegisterScreen(),
+            ),
       ),
       GoRoute(
         path: AuthRoutes.login,
-        builder: (context, state) => const LoginScreen(),
+        pageBuilder:
+            (context, state) => NoTransitionPage(
+              key: state.pageKey,
+              child: const LoginScreen(),
+            ),
       ),
     ],
   ),
