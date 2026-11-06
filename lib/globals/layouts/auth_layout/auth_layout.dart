@@ -49,6 +49,8 @@ class _AuthlayoutState extends ConsumerState<Authlayout> {
         percentageMoved = 0;
       } else if (path.contains("/auth/login")) {
         percentageMoved = 0.2;
+      } else if (path.contains("/auth/recover")) {
+        percentageMoved = 0.01;
       } else {
         percentageMoved = 1;
       }
@@ -134,113 +136,113 @@ class _AuthlayoutState extends ConsumerState<Authlayout> {
                           ),
                         ],
                       ),
-                      /* Separator(
-                          thickness: 2,
-                          color: AppColorKey.dividerLight,
-                          label: "O",
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                debugPrint("Hola Google");
-                              },
-                              icon: Container(
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: AppColors.white,
+                      /*  Separator(
+                        thickness: 2,
+                        color: AppColorKey.dividerLight,
+                        label: "O",
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              debugPrint("Hola Google");
+                            },
+                            icon: Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: AppColors.white,
 
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Color.fromRGBO(50, 50, 93, 0.25),
-                                      blurRadius: 27,
-                                      spreadRadius: -5,
-                                      offset: Offset(0, 13),
-                                    ),
-                                    BoxShadow(
-                                      color: Color.fromRGBO(0, 0, 0, 0.3),
-                                      blurRadius: 16,
-                                      spreadRadius: -8,
-                                      offset: Offset(0, 8),
-                                    ),
-                                  ],
-                                ),
-                                child: Image.asset(
-                                  "assets/images/googleIcon.png",
-                                  width: 40,
-                                  height: 40,
-                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Color.fromRGBO(50, 50, 93, 0.25),
+                                    blurRadius: 27,
+                                    spreadRadius: -5,
+                                    offset: Offset(0, 13),
+                                  ),
+                                  BoxShadow(
+                                    color: Color.fromRGBO(0, 0, 0, 0.3),
+                                    blurRadius: 16,
+                                    spreadRadius: -8,
+                                    offset: Offset(0, 8),
+                                  ),
+                                ],
+                              ),
+                              child: Image.asset(
+                                "assets/images/googleIcon.png",
+                                width: 40,
+                                height: 40,
                               ),
                             ),
-                            IconButton(
-                              onPressed: () {
-                                debugPrint("Hola Facebook");
-                              },
-                              icon: Container(
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: AppColors.white,
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              debugPrint("Hola Facebook");
+                            },
+                            icon: Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: AppColors.white,
 
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Color.fromRGBO(50, 50, 93, 0.25),
-                                      blurRadius: 27,
-                                      spreadRadius: -5,
-                                      offset: Offset(0, 13),
-                                    ),
-                                    BoxShadow(
-                                      color: Color.fromRGBO(0, 0, 0, 0.3),
-                                      blurRadius: 16,
-                                      spreadRadius: -8,
-                                      offset: Offset(0, 8),
-                                    ),
-                                  ],
-                                ),
-                                child: Image.asset(
-                                  "assets/images/facebookIcon.png",
-                                  width: 40,
-                                  height: 40,
-                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Color.fromRGBO(50, 50, 93, 0.25),
+                                    blurRadius: 27,
+                                    spreadRadius: -5,
+                                    offset: Offset(0, 13),
+                                  ),
+                                  BoxShadow(
+                                    color: Color.fromRGBO(0, 0, 0, 0.3),
+                                    blurRadius: 16,
+                                    spreadRadius: -8,
+                                    offset: Offset(0, 8),
+                                  ),
+                                ],
+                              ),
+                              child: Image.asset(
+                                "assets/images/facebookIcon.png",
+                                width: 40,
+                                height: 40,
                               ),
                             ),
-                            IconButton(
-                              onPressed: () {
-                                debugPrint("Hola Apple");
-                              },
-                              icon: Container(
-                                padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: AppColors.white,
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              debugPrint("Hola Apple");
+                            },
+                            icon: Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: AppColors.white,
 
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Color.fromRGBO(50, 50, 93, 0.25),
-                                      blurRadius: 27,
-                                      spreadRadius: -5,
-                                      offset: Offset(0, 13),
-                                    ),
-                                    BoxShadow(
-                                      color: Color.fromRGBO(0, 0, 0, 0.3),
-                                      blurRadius: 16,
-                                      spreadRadius: -8,
-                                      offset: Offset(0, 8),
-                                    ),
-                                  ],
-                                ),
-                                child: Image.asset(
-                                  "assets/images/appleIcon.png",
-                                  width: 40,
-                                  height: 40,
-                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Color.fromRGBO(50, 50, 93, 0.25),
+                                    blurRadius: 27,
+                                    spreadRadius: -5,
+                                    offset: Offset(0, 13),
+                                  ),
+                                  BoxShadow(
+                                    color: Color.fromRGBO(0, 0, 0, 0.3),
+                                    blurRadius: 16,
+                                    spreadRadius: -8,
+                                    offset: Offset(0, 8),
+                                  ),
+                                ],
+                              ),
+                              child: Image.asset(
+                                "assets/images/appleIcon.png",
+                                width: 40,
+                                height: 40,
                               ),
                             ),
-                          ],
-                        ), */
+                          ),
+                        ],
+                      ), */
                     ],
                   ),
                 ),
