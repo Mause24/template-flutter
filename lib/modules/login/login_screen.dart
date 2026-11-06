@@ -28,6 +28,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       }
     }
 
+    void onClickRecover() async {
+      if (context.mounted) {
+        context.go("/auth/recover?step=1");
+      }
+    }
+
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -82,9 +88,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             children: [
               Font(
                 text: "¿Olvidaste tu contraseña?",
-                onTap: () {
-                  debugPrint("Olvidar contraseña");
-                },
+                onTap: onClickRecover,
                 color: AppColorKey.primaryLight,
                 size: "sm",
                 style: TextStyle(fontWeight: FontWeight.w500),
