@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:template_flutter/globals/layouts/auth_layout/auth_layout.dart';
 import 'package:template_flutter/modules/login/login_screen.dart';
+import 'package:template_flutter/modules/recover/recover_screen.dart';
 import 'package:template_flutter/modules/register/register_screen.dart';
 import 'package:template_flutter/routes/auth/auth_routes.dart';
 
@@ -27,6 +28,17 @@ final authRouter = [
               key: state.pageKey,
               child: const LoginScreen(),
             ),
+      ),
+      GoRoute(
+        path: AuthRoutes.recover,
+        pageBuilder: (context, state) {
+          final stepString = state.uri.queryParameters["step"] ?? "1";
+          final currentStep = int.tryParse(stepString) ?? 1;
+          return NoTransitionPage(
+            key: state.pageKey,
+            child: RecoverScreen(step: currentStep),
+          );
+        },
       ),
     ],
   ),
